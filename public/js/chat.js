@@ -10,7 +10,7 @@ let originData
 
 stopTimer()
 
-// longProlling()
+longProlling()
 
 
 window.onload=function(){
