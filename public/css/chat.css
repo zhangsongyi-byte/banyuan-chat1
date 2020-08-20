@@ -1,0 +1,85 @@
+.chat-container{
+    margin: 0 auto;
+    position: relative;
+}
+
+
+.chat-header{
+    font-size: 20px;
+    height: 80px;
+    margin:0 25px;
+    padding-left: 60px;
+    line-height: 80px;
+    border-bottom: 2px solid #F6F5F5;
+}
+
+.chat-content{
+    overflow-y: auto;
+    height: calc(100vh - 272px);
+    overflow-y: auto;/* 设置 */
+    padding:40px 80px;
+}
+
+.chat-content-container{
+    width: 300px;
+    min-height: 125px;
+    margin-top: 20px;
+}
+
+
+.chat-detail-left{
+    float: left;
+}
+
+.chat-name{
+    width: 45px;
+    text-align: center;
+}
+
+.chat-detail-right{
+    width: 200px;
+    min-height: 20px;
+    overflow:hidden;
+    overflow-wrap: break-word;
+    float: right;
+    display: inline-block;
+    text-align: left;
+    padding: 10px;
+    background-color:whitesmoke;
+    border-radius: 30px;
+}
+
+
+.chat-input-container{
+    width: 87%;
+    height: 50px;
+    margin: 0 auto 60px auto;
+    /* margin-left: 60px; */
+    position: relative;
+}
+
+.chat-input{
+    width: calc(100% - 160px);
+    height: 100%;
+    padding: 0 60px;
+    outline:none
+
+}
+
+.chat-input-smile{
+    position: absolute;
+    top: 7px;
+    left: 20px;
+}
+
+.chat-time{
+
+    color: grey;
+    font-size: 8px;
+}
+
+.clearFix::after{
+    content: '';
+    display: block;
+    clear: both;
+}

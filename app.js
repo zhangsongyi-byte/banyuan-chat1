@@ -13,11 +13,14 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const debug = require('debug')('koa2:server')
 const path = require('path')
+const nunjucksEnv = require('nunjucks')
 
 const config = require('./config')
 const routes = require('./routes')
 
 const port = process.env.PORT || config.port
+
+const{formatTime}=require('./common/utils')
 
 
 const{initConnection}=require('./models/connection')
@@ -36,12 +39,20 @@ app.use(bodyparser())
   }))
   .use(require('koa-static')(__dirname + '/public'))
   .use(views(path.join(__dirname, '/views'), {
-    options: {settings: {views: path.join(__dirname, 'views')}},
+    options: {nunjucksEnv},
     map: {'njk': 'nunjucks'},
     extension: 'njk'
   }))
   .use(router.routes())
   .use(router.allowedMethods())
+
+
+nunjucksEnv.configure(path.join(__dirname, '/views'),{
+
+  trimBlocks: true,
+  lstripBlocks: true
+}).addFilter('formatTime',formatTime)
+  
 
 // logger
 app.use(async (ctx, next) => {

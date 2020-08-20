@@ -8,5 +8,11 @@ module.exports =  (router) => {
 
   /* 聊天界面 */
   router.get('/chat',controller.chat)
+
+  router.post('/chat/addContent',controller.addContent)
+
+  router.get('/chat/getContent',controller.getContent)
+
+
 }
   
