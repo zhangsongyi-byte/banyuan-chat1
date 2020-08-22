@@ -1,16 +1,28 @@
-// const { result } = require('lodash')
 
 
 let inputEle=document.getElementsByClassName('chat-input')[0]
-
 
 let timer
 
 let originData
 
+newRender()
+
 stopTimer()
 
 longProlling()
+
+
+function newRender(){
+  $.ajax({
+    type:'get',
+    url:'http://192.168.10.169:3000/chat/getContent',
+    data:{},
+    success:(result)=>{
+      originData=result.contents
+    }
+  })
+}
 
 
 window.onload=function(){
@@ -33,12 +45,11 @@ inputEle.onkeydown=function(e){
             inputEle.value=''
             $('chat-content').html('')
             render(result.result)
+            originData=result.result
           }
         }
       })
-
     }
-       
   }
 }
 
@@ -64,30 +75,6 @@ function render(result){
         </div>`
   })
   $('.chat-content').html(html) 
-
-
-  // originData=result
-
-
-  // for(let i=0;i<result.length-1;i++){
-  //   for(let j=0;j<result.length-i-1;j++){
-  //     if(result[j].createdAt>result[j+1].createdAt){
-  //       let temp=result[j+1].createdAt
-  //       result[j+1].createdAt=result[j].createdAt
-  //       result[j].createdAt=temp
-  //     }
-  //   }
-  // }
-
-  // let newResult=result
-  // console.log(result)
-
-  // originData.filter((item)=>{
-  //   if(item.createdAt>newResult[newResult.length-1].createdAt){
-  //     alert('有一条新消息')
-  //   }
-  // })
-
   /* 当输入完成，enter之后也会自动到底部 */
   scrollToBottom()
 }
@@ -109,10 +96,27 @@ function longProlling(){
       url:'http://192.168.10.169:3000/chat/getContent',
       data:{},
       success:(result)=>{
-        render(result.contents)
+        result=result.contents
+
+        render(result)
+
+        let times=0
+        result.filter((item)=>{
+          if(moment(originData[originData.length-1].createdAt).isBefore(moment(item.createdAt))){
+            times++
+            // console.log(times)
+            // renderTips(times)
+          }
+        })
+        console.log(times)
+        if(times>0){
+          renderTips(times)
+        }else{
+          console.log('没有新消息')
+        }
       }
     })
-  },2000)
+  },5000)
 }
 
 
@@ -121,4 +125,20 @@ function stopTimer(){
   if(timer){
     clearInterval(timer)
   }
+}
+
+const newTips=document.getElementsByClassName('newTips')[0]
+function renderTips(times){
+  if(times>0){
+    let html='你收到了'+times+'条新消息'
+    $('.newTips').html(html)
+    newTips.style.display='block'
+  }
+}
+
+
+newTips.onclick=function(){
+  scrollToBottom()
+  newTips.style.display='none'
+  newRender()
 }

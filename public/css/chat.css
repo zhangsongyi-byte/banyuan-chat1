@@ -49,6 +49,16 @@
     border-radius: 30px;
 }
 
+.newTips{
+    width: 70px;
+    height: 50px;
+    background-color: royalblue;
+    position: absolute;
+    right: 0px;
+    top: 200px;
+    display: none;
+}
+
 
 .chat-input-container{
     width: 87%;
